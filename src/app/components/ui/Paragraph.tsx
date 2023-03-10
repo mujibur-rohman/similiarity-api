@@ -1,5 +1,6 @@
-import { FC, HTMLAttributes } from "react";
+import { FC, HTMLAttributes, forwardRef } from "react";
 import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "@/app/utils/utils";
 
 const paragraphVariants = cva(
   "max-w-prose text-blue-700 dark:text-blue-300 mb-2 text-center",
@@ -20,8 +21,20 @@ interface ParagraphProps
   extends HTMLAttributes<HTMLParagraphElement>,
     VariantProps<typeof paragraphVariants> {}
 
-const Paragraph: FC<ParagraphProps> = () => {
-  return <div className="max-w-prose">Div</div>;
-};
+const Paragraph = forwardRef<HTMLParagraphElement, ParagraphProps>(
+  ({ className, size, children, ...props }, ref) => {
+    return (
+      <p
+        ref={ref}
+        {...props}
+        className={cn(paragraphVariants({ size, className }))}
+      >
+        {children}
+      </p>
+    );
+  }
+);
+
+Paragraph.displayName = "Paragraf";
 
 export default Paragraph;
